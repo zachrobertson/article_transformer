@@ -34,15 +34,20 @@ class Preprocessing:
         return training_html
 
     def _process_html(self, html_list):
+        html_text = []
         for html in html_list:
             soup = BeautifulSoup(html, features="html.parser")
-            print(soup.get_text())
+            # Remove title
+            for s in soup.select('h1'):
+                s.extract()
+            html_text.append(soup.get_text())
+        return html_text
     
     def _tokenize_dataset(self):
         authors = self.data['author'].tolist()
         title = self.data['title'].tolist()
-        html = self._process_html(self.data['html'].tolist())
-        all_text = authors + title + html
+        html_text = self._process_html(self.data['html'].tolist())
+        all_text = authors + title + html_text
         vectorization_layer = tf.keras.preprocessing.text.Tokenizer(
             num_words=10000,
             filters='\t',
@@ -56,14 +61,14 @@ class Preprocessing:
 
         vectorized_authors = vectorization_layer.texts_to_sequences(authors)
         vectorized_title = vectorization_layer.texts_to_sequences(title)
-        vectorized_html = vectorization_layer.texts_to_sequences(html)
+        vectorized_html = vectorization_layer.texts_to_sequences(html_text)
 
-        reversed_authors = [self._reverse_tokenized_string(item) for item in vectorized_authors]
-        reversed_title = [self._reverse_tokenized_string(item) for item in vectorized_title]
-        reversed_html = [self._reverse_tokenized_string(item) for item in vectorized_html]
-        print(reversed_authors)
-        print(reversed_title)
-        print(reversed_html)
+        # reversed_authors = [self._reverse_tokenized_string(item) for item in vectorized_authors]
+        # reversed_title = [self._reverse_tokenized_string(item) for item in vectorized_title]
+        # reversed_html = [self._reverse_tokenized_string(item) for item in vectorized_html]
+        # print(reversed_authors)
+        # print(reversed_title)
+        # print(reversed_html)
 
         self.tokenized_data = pd.DataFrame({
             'author_tok' : vectorized_authors,
