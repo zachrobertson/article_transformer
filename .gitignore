@@ -3,3 +3,6 @@
 
 # VSCode settings
 .vscode
+
+# Ignore files
+*.txt
