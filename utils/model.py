@@ -13,10 +13,8 @@ class ArticleTransformer:
         self.model = TFGPT2LMHeadModel.from_pretrained("gpt2", pad_token_id=self.tokenizer.eos_token_id)
     
     def run_fn(self, text):
-        tf.random.set_seed(0)
         input_ids = self.tokenizer.encode(text, return_tensors='tf')
         min_length = self.config.max_len - int(self.config.max_len / 2)
-        print(min_length) 
         sample_output = self.model.generate(
             input_ids, 
             do_sample=True, 

@@ -63,13 +63,6 @@ class Preprocessing:
         vectorized_title = vectorization_layer.texts_to_sequences(title)
         vectorized_html = vectorization_layer.texts_to_sequences(html_text)
 
-        # reversed_authors = [self._reverse_tokenized_string(item) for item in vectorized_authors]
-        # reversed_title = [self._reverse_tokenized_string(item) for item in vectorized_title]
-        # reversed_html = [self._reverse_tokenized_string(item) for item in vectorized_html]
-        # print(reversed_authors)
-        # print(reversed_title)
-        # print(reversed_html)
-
         self.tokenized_data = pd.DataFrame({
             'author_tok' : vectorized_authors,
             'title_tok' : vectorized_title,

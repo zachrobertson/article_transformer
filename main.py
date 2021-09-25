@@ -1,17 +1,6 @@
 import tensorflow as tf
 
-from argparse import ArgumentParser
-
-from utils.preprocessing import Preprocessing
 from utils.model import ArticleTransformer
-
-parser = ArgumentParser()
-parser.add_argument(
-    '--data',
-    type=str,
-    default='test.csv',
-    help='Path to the .csv file from the /data directory'
-)
 
 def main(start_text):
     transformer = ArticleTransformer()
@@ -20,4 +9,7 @@ def main(start_text):
     return output
 
 if __name__ == "__main__":
-    output = main('No humans were harmed in the making of this article.')
+    output = main('Bidirectional encoder representation of transformers')
+    with open('output.txt', 'w', encoding='utf8') as f:
+        f.write(output)
+        f.close()
